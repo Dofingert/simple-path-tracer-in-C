@@ -4,7 +4,6 @@ float MAX_FLOAT = 1/0.f;
 
 int is_in_tri(tri_t *tri, vec3_t *p)
 {
-    // 判断点P是否在空间三角形内
     vec3_t v0, v1;
     vec3_t v2;
     sub(tri->p + 1, tri->p, &v0);
@@ -16,33 +15,22 @@ int is_in_tri(tri_t *tri, vec3_t *p)
     float dot11 = dot(&v1, &v1);
     float dot12 = dot(&v1, &v2);
     float inverDeno = 1 / (dot00 * dot11 - dot01 * dot01);
-    //printf("Big num is %f\n", (dot00 * dot11 - dot01 * dot01));
-    //printf("inverDeno is %f\n", inverDeno);
     float u = (dot11 * dot02 - dot01 * dot12) * inverDeno;
     if (u < 0 || u > 1)
     {
-        //print_vec3(p);
-        //printf("Not in triangle u:%f\n", u);
-        //print_vec3(p);
         return 0;
     }
 
     float v = (dot00 * dot12 - dot01 * dot02) * inverDeno;
     if (v < 0 || v > 1)
     {
-        //print_vec3(p);
-        //printf("Not in triangle v:%f\n", v);
         return 0;
     }
 
     if (u + v <= 1.f)
     {
-        //print_vec3(p);
-        //printf("Is in triangle u:%f v:%f\n", u, v);
         return 1;
     }
-    //print_vec3(p);
-    //printf("Not in triangle u:%f v:%f\n", u, v);
     return 0;
 }
 
@@ -50,47 +38,31 @@ float interact_triangle(tri_t *tri, tri_t *last_hit, ray_t *ray)
 {
     if (last_hit == tri)
     {
-        //printf("Same hit return");
         return MAX_FLOAT;
     }
     vec3_t line;
     sub(&ray->src, &tri->s, &line);
-    //printf("[debug] line is ");
-    //print_vec3(&line);
-    //printf("\n");
     float distance = dot(&line, &tri->n);
     float dotnline = dot(&tri->n, &ray->dir);
-    //printf("distance: %f dotnline:%f\n",distance,dotnline);
     if (distance * dotnline > 0)
     {
         return MAX_FLOAT;
     }
     distance /= -dotnline;
-    // copy(&ray->dir, &line);
     mul(&ray->dir, float_abs(distance), &line);
     self_add(&line, &ray->src);
-    //print_vec3(&line);
-    //printf("distance is %f\n",distance);
-    // Line is the possible hit point
-    // possible_hit_point = line.at(Math.abs(distance));
     if (is_in_tri(tri, &line))
     {
-        //printf("Hit in Triangle!\n");
         return distance;
     }
     else
     {
-        //printf("Not hit triangle\n");
         return MAX_FLOAT;
     }
 }
 
 int is_in_bvh(bvh_t *bvh, ray_t *ray)
 {
-    //printf("bound: ");
-    //print_vec3(bvh->bound);
-    //print_vec3(bvh->bound + 1);
-    //putchar('\n');
     float t_min, t_max;
     int shift = 0;
     while (ray->dir.v[shift] <= 0.0001f)
@@ -98,7 +70,6 @@ int is_in_bvh(bvh_t *bvh, ray_t *ray)
         shift++;
     }
     float invD = 1.0f / ray->dir.v[shift];
-    //printf("invD is %f\n", invD);
     float t0 = (bvh->bound[1].v[shift] - ray->src.v[shift]) * invD;
     float t1 = (bvh->bound[0].v[shift] - ray->src.v[shift]) * invD;
     if (invD < 0.0f)
@@ -124,7 +95,6 @@ int is_in_bvh(bvh_t *bvh, ray_t *ray)
         }
         t_min = t0 > t_min ? t0 : t_min;
         t_max = t1 < t_max ? t1 : t_max;
-        //printf("t_min is %f, t_max is %f\n", t_min, t_max);
         if (t_max < t_min)
             return 0;
     }
@@ -135,7 +105,6 @@ float interact_bvh(bvh_t *bvh, ray_t *ray, hitable_t *last_hit, hitable_t **next
 {
     if (is_in_bvh(bvh, ray))
     {
-        //printf("Is in bvh\n");
         float left_hit;
         float right_hit;
         hitable_t *l_son;
@@ -167,7 +136,6 @@ float interact_bvh(bvh_t *bvh, ray_t *ray, hitable_t *last_hit, hitable_t **next
             right_hit = interact_triangle(&r_son->tri, last_hit, ray);
             r_hit = &r_son->tri;
         }
-        //printf("l:%f, r:%f\n",left_hit,right_hit);
         if (left_hit < right_hit && left_hit > MINIMAL_DISTANCE)
         {
             *next_hit = l_hit;
@@ -183,7 +151,6 @@ float interact_bvh(bvh_t *bvh, ray_t *ray, hitable_t *last_hit, hitable_t **next
     }
     else
     {
-        //printf("Not in bvh\n");
         *next_hit = 0;
         return MAX_FLOAT;
     }

@@ -11,9 +11,9 @@ float inv_sqrt(float x) // Carm Invert Sqrt
 
     float xhalf = 0.5f * x;
     int i = *(int *)&x;
-    i = 0x5f375a86 - (i >> 1); // 计算第一个近似根
+    i = 0x5f375a86 - (i >> 1);
     x = *(float *)&i;
-    x = x * (1.5f - xhalf * x * x); // 牛顿迭代法
+    x = x * (1.5f - xhalf * x * x);
     return x;
 }
 

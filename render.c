@@ -49,9 +49,6 @@ void render(hitable_t *scene, vec3_t ori_point, vec3_t target_position, float fo
                 mul(&length_in_y, u, &l_x);
                 self_sub(&ray.dir, &l_x);
                 normalize(&ray.dir);
-                // print_vec3(&ray.dir);
-                // print_vec3(&ray.src);
-                // putchar('\n');
                 trace_ray(&ray, scene);
                 self_add(&color, &ray.adder);
             }

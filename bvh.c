@@ -161,10 +161,8 @@ hitable_t *build_scene(hitable_t *list, uint32_t sceen_size)
             new_bvh = get_hitable(id_list[levelSize - 1]);
             id_list[levelSize / 2] = id_list[levelSize - 1];
         }
-        // System.out.printf("%dlevel: %dBvh\n",level,levelSize);
         levelSize = (levelSize + 1) / 2;
         level++;
-        // System.out.printf("%dAflevel: %dBvh\n",level,levelSize);
     }
     return get_hitable(id_list[0]);
 }
