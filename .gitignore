@@ -1,1 +1,4 @@
 *.ppm 
+*.o
+test_main
+main

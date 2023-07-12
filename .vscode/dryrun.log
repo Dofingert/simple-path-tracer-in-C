@@ -1,5 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/dofingert/Source/simple-path-tracer-in-C'
+make: Entering directory '/home/buaa-nscscc/c_test/simple-path-tracer-in-C'
 gcc -O2 -Wall -I./ -c interaction.c
 gcc -O2 -Wall -I./ -c triangle.c
 gcc -O2 -Wall -I./ -c math.c
@@ -9,5 +9,5 @@ gcc -O2 -Wall -I./ -c simple_scene.c
 gcc -O2 -Wall -I./ -c render.c
 gcc -O2 -Wall -I./ -c test_main.c
 gcc -o test_main interaction.o triangle.o math.o bvh.o trace_ray.o simple_scene.o render.o test_main.o
-make: Leaving directory '/home/dofingert/Source/simple-path-tracer-in-C'
+make: Leaving directory '/home/buaa-nscscc/c_test/simple-path-tracer-in-C'
  
