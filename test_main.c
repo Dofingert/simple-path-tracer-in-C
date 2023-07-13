@@ -53,9 +53,9 @@ void print_bvh_tree(hitable_t *tree, int level)
     print_bvh_tree(get_hitable(tree->bvh.son[1]), level + 1);
 }
 
-#define res_x 4096
-#define res_y 4096
-#define sample_rate 128
+#define res_x 128
+#define res_y 128
+#define sample_rate 32
 #define fov_tan 0.75
 uint32_t paint_board[res_y][res_x];
 

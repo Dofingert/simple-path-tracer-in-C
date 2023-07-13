@@ -2,7 +2,7 @@
 #include "my_types.h"
 #include "math.h"
 
-#define MAX_SCEEN_SIZE 1024 * 1024
+#define MAX_SCEEN_SIZE 128 * 128
 #define MINIMAL_DISTANCE -10.f
 typedef enum
 {

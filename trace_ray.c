@@ -26,6 +26,7 @@ void trace_ray(ray_t *ray, hitable_t *scene)
     for (int i = 0; i < max_trace_depth; i++)
     {
         float distance;
+        vec3_t hit_point;
         if (scene->type == BVH_OBJECT)
         {
             hitable_t *next_hit;
@@ -49,7 +50,6 @@ void trace_ray(ray_t *ray, hitable_t *scene)
             return;
         }
     tri_cal:
-        vec3_t hit_point;
         mul(&ray->dir, distance, &hit_point);
         self_add(&hit_point, &ray->src);
         // Material has 32bit, lower 24 bit is used for color discription, high 8 bit is used for matalitic.
